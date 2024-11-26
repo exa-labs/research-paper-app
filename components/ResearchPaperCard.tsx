@@ -40,7 +40,7 @@ interface ResearchPaper {
         rel="noopener noreferrer"
         className="block mb-6 transition-all duration-300 hover:translate-y-[-2px]"
       >
-        <div className="p-6 md:p-8 bg-white rounded-none shadow-sm hover:shadow-md border border-white transition-all duration-300">
+        <div className="p-6 md:p-8 bg-white rounded-none shadow-sm hover:shadow-lg border border-white transition-all duration-300">
           <h3 className="text-xl font-semibold text-gray-800 mb-3 line-clamp-2">
             {paper.title}
           </h3>
