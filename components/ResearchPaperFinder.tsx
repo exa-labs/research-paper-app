@@ -2,6 +2,7 @@
 "use client";
 import { useState, FormEvent } from "react";
 import { CardResearchPaper } from "./CardResearchPaper";
+import ResultsLoadingSkeleton from "./ui/ResultsLoadingSkeleton";
 
 export default function ResearchPaperFinder() {
   const [isGenerating, setIsGenerating] = useState(false);
@@ -82,7 +83,9 @@ export default function ResearchPaperFinder() {
         </div>
       )}
 
-      {searchResults.length > 0 && (
+      {isGenerating && <ResultsLoadingSkeleton />}
+
+      {!isGenerating && searchResults.length > 0 && (
         <div className="mt-8 space-y-8">
           {searchResults.map((paper, index) => (
             <CardResearchPaper
@@ -93,7 +96,6 @@ export default function ResearchPaperFinder() {
           ))}
         </div>
       )}
-
 
     </div>
   );
