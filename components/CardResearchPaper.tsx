@@ -1,6 +1,13 @@
 // components/CardResearchPaper.tsx
-interface ResearchPaper {
+
+"use client";
+
+import { useState } from 'react';
+import { PaperDialog } from './PaperDialog';
+
+  interface ResearchPaper {
     title: string;
+    text: string;
     author: string;
     publishedDate: string;
     summary: string;
@@ -8,6 +15,10 @@ interface ResearchPaper {
   }
   
   export function CardResearchPaper({ paper, animationDelay, }: { paper: ResearchPaper, animationDelay: number; }) {
+
+    
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+
     // Extract year from date, return null if invalid
     const getYear = (dateString: string) => {
       const date = new Date(dateString);
@@ -34,29 +45,40 @@ interface ResearchPaper {
     const metaInfo = formatMetaInfo(year, paper.author);
   
     return (
-      <a
-        href={paper.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={`block mb-6 transition-all duration-300 hover:translate-y-[-2px] opacity-0 animate-fade-up`}
-        style={{ animationDelay: `${animationDelay}ms` }}
-      >
-        <div className="p-6 md:p-8 bg-white rounded-none shadow-sm hover:shadow-lg border border-white transition-all duration-300">
-          <h3 className="text-xl font-semibold text-gray-800 mb-3 line-clamp-2">
-            {paper.title}
-          </h3>
-  
-          <p className="text-gray-700 mb-4 line-clamp-3">
-            {paper.summary}
-          </p>
 
-          {metaInfo && (
-            <p className="text-sm text-gray-400 line-clamp-1">
-              {metaInfo}
-            </p>
-          )}
+      <>
+        <div 
+          onClick={() => setIsDialogOpen(true)}
+          className="cursor-pointer hover:shadow-lg transition-shadow duration-200"
+        >
+           
+              <div className="mb-6 p-6 hover:translate-y-[-2px] md:p-8 bg-white rounded-none shadow-sm hover:shadow-lg border border-white transition-all duration-300  opacity-0 animate-fade-up"
+              style={{ animationDelay: `${animationDelay}ms` }}>
+                <h3 className="text-xl font-semibold text-gray-800 mb-3 line-clamp-2">
+                  {paper.title}
+                </h3>
+        
+                <p className="text-gray-700 mb-4 line-clamp-3">
+                  {paper.summary}
+                </p>
 
+                {metaInfo && (
+                  <p className="text-sm text-gray-400 line-clamp-1">
+                    {metaInfo}
+                  </p>
+                )}
+
+              </div>
+            
         </div>
-      </a>
+
+        <PaperDialog 
+          paper={paper}
+          isOpen={isDialogOpen}
+          onClose={() => setIsDialogOpen(false)}
+        />
+      </>
+
+     
     );
   }  
