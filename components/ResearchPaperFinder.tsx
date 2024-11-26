@@ -1,7 +1,7 @@
 // ResearchPaperFinder.tsx
 "use client";
 import { useState, FormEvent } from "react";
-import { ResearchPaperCard } from "./ResearchPaperCard";
+import { CardResearchPaper } from "./CardResearchPaper";
 
 export default function ResearchPaperFinder() {
   const [isGenerating, setIsGenerating] = useState(false);
@@ -64,7 +64,7 @@ export default function ResearchPaperFinder() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Type here to find research papers"
-            className="flex-1 p-3 rounded-none ring-2 ring-brand-default opacity-0 animate-fade-up [animation-delay:600ms]"
+            className="flex-1 p-3 rounded-none ring-2 ring-brand-default focus:outline-none opacity-0 animate-fade-up [animation-delay:600ms]"
           />
           <button
             type="submit"
@@ -85,10 +85,15 @@ export default function ResearchPaperFinder() {
       {searchResults.length > 0 && (
         <div className="mt-8 space-y-8">
           {searchResults.map((paper, index) => (
-            <ResearchPaperCard key={index} paper={paper} />
+            <CardResearchPaper
+              key={index} 
+              paper={paper} 
+              animationDelay={200 + index * 200}
+            />
           ))}
         </div>
       )}
+
 
     </div>
   );

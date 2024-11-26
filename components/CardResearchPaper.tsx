@@ -1,4 +1,4 @@
-// components/ResearchPaperCard.tsx
+// components/CardResearchPaper.tsx
 interface ResearchPaper {
     title: string;
     author: string;
@@ -7,7 +7,7 @@ interface ResearchPaper {
     url: string;
   }
   
-  export function ResearchPaperCard({ paper }: { paper: ResearchPaper }) {
+  export function CardResearchPaper({ paper, animationDelay, }: { paper: ResearchPaper, animationDelay: number; }) {
     // Extract year from date, return null if invalid
     const getYear = (dateString: string) => {
       const date = new Date(dateString);
@@ -38,7 +38,8 @@ interface ResearchPaper {
         href={paper.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="block mb-6 transition-all duration-300 hover:translate-y-[-2px]"
+        className={`block mb-6 transition-all duration-300 hover:translate-y-[-2px] opacity-0 animate-fade-up`}
+        style={{ animationDelay: `${animationDelay}ms` }}
       >
         <div className="p-6 md:p-8 bg-white rounded-none shadow-sm hover:shadow-lg border border-white transition-all duration-300">
           <h3 className="text-xl font-semibold text-gray-800 mb-3 line-clamp-2">
