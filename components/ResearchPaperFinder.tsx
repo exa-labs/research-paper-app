@@ -54,7 +54,7 @@ export default function ResearchPaperFinder() {
 
       {/* Badge positioned at the top */}
       <div className="w-full flex justify-center pt-10 opacity-0 animate-fade-up [animation-delay:200ms]">
-        <Link href="https://exa.ai/" target="_blank">
+        <Link href="/about" target="_blank">
           <AnimatedGradientText>
             <span className="px-2 inline animate-gradient bg-gradient-to-r from-[#254bf1] via-purple-600 to-[#254bf1] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent">
                Learn About Exa - The Search Engine for AI
@@ -122,7 +122,7 @@ export default function ResearchPaperFinder() {
         <div className="max-w-md mx-auto">
           <p className="text-md text-center text-gray-600">
             <Link 
-              href="https://exa.ai/careers" 
+              href="/about"
               target="_blank"
               className="hover:underline cursor-pointer"
             >
