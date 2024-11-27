@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Calendar, MessageSquare, BookOpen, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 interface ResearchPaper {
     title: string;
@@ -31,25 +32,25 @@ export function PaperDialog({ paper, isOpen, onClose }: PaperDialogProps) {
     
     const router = useRouter();
 
+    useEffect(() => {
+        router.prefetch(`/similar`);
+        router.prefetch(`/chatpage`);
+    }, [router]);
+
     const handleSeeSimilar = () => {
         const queryParam = encodeURIComponent(paper.url);
         const url = `/similar?query=${queryParam}`;
-        console.log("Navigating to:", url);
         router.push(url);
-        // const queryParam = encodeURIComponent(paper.url);
-        // router.push(`/similar?query=${queryParam}`);
     };
 
-    
     const handleChatWithPaper = () => {
-    const paperData = {
-        summary: paper.summary || '',
-        title: paper.title || ''
-    };
-    
-    // Use btoa to encode the JSON string to base64
-    const encodedData = btoa(JSON.stringify(paperData));
-    router.push(`/chatpage?paper=${encodedData}`);
+        const paperData = {
+            summary: paper.summary || '',
+            title: paper.title || ''
+        };
+        
+        const encodedData = btoa(JSON.stringify(paperData));
+        router.push(`/chatpage?paper=${encodedData}`);
     };
 
     const formattedDate = paper.publishedDate 
