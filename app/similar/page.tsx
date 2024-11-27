@@ -2,6 +2,9 @@
 "use client";
 
 import FindSimilarPaper from "@/components/similar/FindSimilarPaper";
+import { Suspense } from "react";
+
+export const dynamic = "force-dynamic";
 
 export default function SimilarPapersPage() {
   return (
@@ -10,7 +13,9 @@ export default function SimilarPapersPage() {
         {/* background grid design texture code */}
         <div className="absolute inset-0 -z-0 w-full h-full bg-[linear-gradient(to_right,#80808012_1px,transparent_0px),linear-gradient(to_bottom,#80808012_1px,transparent_0px)] bg-[size:50px_50px]"></div>
 
-        <FindSimilarPaper />
+        <Suspense fallback={<div>Loading...</div>}>
+            <FindSimilarPaper />
+        </Suspense>
 
     </main>
   );

@@ -3,7 +3,7 @@
 
 import { useState, FormEvent, useEffect } from "react";
 
-import { useRouter } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { Home } from 'lucide-react';
 import ResultsLoadingSkeleton from "../ui/ResultsLoadingSkeleton";
 import { CardResearchPaper } from "../CardResearchPaper";
@@ -15,15 +15,15 @@ export default function FindSimilarPaper() {
   const [error, setError] = useState(null);
   
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const query = params.get("query");
+    const query = searchParams.get("query");
     if (query) {
       setSearchQuery(query);
       handleSearch(null, query);
     }
-  }, []);
+  }, [searchParams]);
 
   const handleSearch = async (e: FormEvent | null, initialQuery?: string) => {
     if (e) e.preventDefault();
