@@ -30,13 +30,13 @@ export default function ChatWithPaper({ paperContext }: ChatWithPaperProps) {
   return (
     <div className="relative min-h-screen bg-[var(--secondary-default)]">
       {/* Header */}
-      <div className="border-b border-[var(--secondary-darker)] bg-[var(--secondary-faint)] px-4 py-6 sm:px-6">
+      <div className="border-b border-[var(--secondary-darker)] bg-[var(--secondary-faint)] pr-4 py-6 sm:px-6">
         <div className="mx-auto max-w-5xl flex flex-col">
           <div className="flex items-start">
             <Button 
               variant="ghost" 
               onClick={() => router.push('/')}
-              className="mr-2 hover:bg-[var(--secondary-darker)] transition-colors"
+              className="mr-1 md:mr-3 hover:bg-[var(--secondary-darker)] transition-colors"
             >
               <Home className="h-10 w-10" />
             </Button>

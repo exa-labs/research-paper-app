@@ -65,7 +65,7 @@ export default function ResearchPaperFinder() {
       </div>
 
 
-    <main className="flex flex-col justify-center flex-grow w-full max-w-6xl md:max-w-4xl p-6">
+    <main className="flex flex-col justify-center flex-grow w-full md:max-w-4xl p-2 md:p-6">
 
       <h1 className="md:text-6xl text-4xl pt-6 pb-5 font-medium opacity-0 animate-fade-up [animation-delay:400ms]">
         Discover 
@@ -83,7 +83,7 @@ export default function ResearchPaperFinder() {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Type here to find research papers"
+            placeholder="Find research papers"
             className="flex-1 p-3 rounded-none ring-2 ring-brand-default focus:outline-none opacity-0 animate-fade-up [animation-delay:800ms]"
           />
           <button
@@ -91,7 +91,7 @@ export default function ResearchPaperFinder() {
             disabled={isGenerating}
             className="bg-brand-default text-white px-6 py-3 rounded-none ring-2 ring-brand-default hover:bg-brand-dark transition-colors disabled:opacity-50 opacity-0 animate-fade-up [animation-delay:1000ms]"
           >
-            {isGenerating ? 'Searching...' : 'Search Now'}
+            {isGenerating ? 'Searching...' : 'Search'}
           </button>
         </div>
       </form>
