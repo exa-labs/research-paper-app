@@ -59,7 +59,7 @@ export default function ResearchPaperFinder() {
         Find relevant research papers. Explore knowledge effortlessly.
       </p>
 
-      <form onSubmit={handleSearch} className="mb-14">
+      <form onSubmit={handleSearch} className="mb-20">
         <div className="flex gap-3">
           <input
             type="text"

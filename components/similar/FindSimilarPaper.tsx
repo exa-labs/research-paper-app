@@ -86,7 +86,7 @@ export default function FindSimilarPaper() {
         </p>
     
 
-      <form onSubmit={handleSearch} className="flex gap-3 mb-8">
+      <form onSubmit={handleSearch} className="flex gap-3 mb-20">
         <input
           type="text"
           value={searchQuery}

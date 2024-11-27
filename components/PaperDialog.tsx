@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Calendar, MessageSquare, BookOpen, Search } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface ResearchPaper {
     title: string;
@@ -27,9 +28,21 @@ interface PaperDialogProps {
 }
 
 export function PaperDialog({ paper, isOpen, onClose }: PaperDialogProps) {
-  const formattedDate = paper.publishedDate 
-    ? new Date(paper.publishedDate).getFullYear() 
-    : null;
+    
+    const router = useRouter();
+
+    const handleSeeSimilar = () => {
+        const queryParam = encodeURIComponent(paper.url);
+  const url = `/similar?query=${queryParam}`;
+  console.log("Navigating to:", url);
+  router.push(url);
+        // const queryParam = encodeURIComponent(paper.url);
+        // router.push(`/similar?query=${queryParam}`);
+    };
+
+    const formattedDate = paper.publishedDate 
+        ? new Date(paper.publishedDate).getFullYear() 
+        : null;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -79,6 +92,7 @@ export function PaperDialog({ paper, isOpen, onClose }: PaperDialogProps) {
             <Button
               variant="outline"
               className="flex items-center border-gray-300 gap-2 hover:bg-secondary-darkest md:px-6"
+              onClick={handleSeeSimilar}
             >
               <Search className="h-4 w-4" />
               See Similar Papers
