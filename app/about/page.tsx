@@ -5,7 +5,7 @@ import { ArrowLeft } from 'lucide-react'
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-[var(--secondary-default)]">
-      <div className="max-w-4xl mx-auto px-4 py-12 space-y-12">
+      <div className="max-w-4xl mx-auto px-6 py-12 space-y-12">
         {/* Back Navigation */}
         <Link 
           href="/"
@@ -19,8 +19,10 @@ export default function AboutPage() {
         <main className="space-y-16">
           {/* Header */}
           <div className="space-y-6 opacity-0 animate-fade-up [animation-delay:400ms]">
-            <h1 className="text-4xl md:text-6xl font-bold">
-              exa.ai
+            <h1 className="text-4xl md:text-6xl font-bold hover:text-brand-default">
+                <Link href="https://exa.ai">
+                     exa.ai
+                </Link>
             </h1>
             <p className="text-xl">
               The Search Engine for AI
