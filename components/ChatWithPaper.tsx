@@ -29,7 +29,7 @@ export default function ChatWithPaper({ paperContext }: ChatWithPaperProps) {
   });
 
   return (
-    <div className="relative min-h-screen bg-[var(--secondary-default)]">
+    <div className="relative min-h-screen bg-[var(--secondary-default)] animate-fade-up">
       {/* Header */}
       <div className="border-b border-[var(--secondary-darker)] bg-[var(--secondary-faint)] pr-4 py-6 sm:px-6">
         <div className="mx-auto max-w-5xl flex flex-col">
