@@ -1,52 +1,27 @@
-// // app/chatpage/page.tsx
-// 'use client';
-
-// import { useSearchParams } from 'next/navigation';
-// import ChatWithPaper from '@/components/ChatWithPaper';
-
-// export default function ChatWithPaperPage() {
-//   const searchParams = useSearchParams();
-//   const paperParam = searchParams.get('paper');
-  
-//   const paperContext = paperParam ? JSON.parse(decodeURIComponent(paperParam)) : null;
-
-//   if (!paperContext) {
-//     return <div>No paper context provided</div>;
-//   }
-
-//   return (
-//     <main className="flex relative min-h-screen flex-col items-center justify-center p-4">
-
-//         {/* background grid design texture code */}
-//         <div className="absolute inset-0 -z-0 w-full h-full bg-[linear-gradient(to_right,#80808012_1px,transparent_0px),linear-gradient(to_bottom,#80808012_1px,transparent_0px)] bg-[size:50px_50px]"></div>
-//         <ChatWithPaper paperContext={paperContext} />
-
-//     </main>
-//   );
-// }
-
-
 // app/chatpage/page.tsx
 'use client';
 
-import { useSearchParams } from 'next/navigation';
+import { useState, useEffect } from "react";
 import ChatWithPaper from '@/components/ChatWithPaper';
 
 export default function ChatWithPaperPage() {
-  const searchParams = useSearchParams();
-  const paperParam = searchParams.get('paper');
+    const [paperContext, setPaperContext] = useState(null);
+
+    useEffect(() => {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const paperParam = params.get("paper");
   
-  let paperContext = null;
-  
-  try {
-    // Decode the base64 string back to JSON
-    if (paperParam) {
-      const decodedData = atob(paperParam);
-      paperContext = JSON.parse(decodedData);
-    }
-  } catch (error) {
-    console.error('Error parsing paper context:', error);
-  }
+        if (paperParam) {
+          // Decode the base64 string back to JSON
+          const decodedData = atob(paperParam);
+          const parsedData = JSON.parse(decodedData);
+          setPaperContext(parsedData);
+        }
+      } catch (error) {
+        console.error("Error parsing paper context:", error);
+      }
+    }, []);
 
   if (!paperContext) {
     return (
