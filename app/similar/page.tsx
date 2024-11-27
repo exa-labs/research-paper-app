@@ -1,5 +1,4 @@
 // app/similar/page.tsx
-
 "use client";
 
 import FindSimilarPaper from "@/components/similar/FindSimilarPaper";
