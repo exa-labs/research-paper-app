@@ -86,17 +86,17 @@ export default function FindSimilarPaper() {
         </p>
     
 
-      <form onSubmit={handleSearch} className="flex gap-3 mb-20">
+      <form onSubmit={handleSearch} className="flex gap-3 mb-20 opacity-0 animate-fade-up [animation-delay:200ms]">
         <input
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Enter paper url"
-          className="flex-1 p-3 rounded-none ring-2 ring-brand-default focus:outline-none opacity-0 animate-fade-up [animation-delay:200ms]"
+          className="flex-1 p-3 rounded-none ring-2 ring-brand-default focus:outline-none"
         />
         <button
           type="submit"
-          className="bg-brand-default text-white px-6 py-3 rounded-none ring-2 ring-brand-default hover:bg-brand-dark transition-colors disabled:opacity-50 opacity-0 animate-fade-up [animation-delay:200ms]"
+          className="bg-brand-default text-white px-6 py-3 rounded-none ring-2 ring-brand-default hover:bg-brand-dark transition-colors disabled:opacity-50"
           disabled={isGenerating}
         >
           {isGenerating ? 'Finding...' : 'Find Similar'}
