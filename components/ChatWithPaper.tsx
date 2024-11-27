@@ -22,7 +22,8 @@ export default function ChatWithPaper({ paperContext }: ChatWithPaperProps) {
         role: 'system',
         content: `You are an AI assistant helping with the research paper titled: "${paperContext.title}".
                   Paper summary: ${paperContext.summary}
-                 Please provide accurate and helpful responses based on this paper's content.`
+                  Please provide accurate and helpful responses based on this paper's content.
+                  Use simple English. Give short answers.`
       }
     ],
   });

@@ -9,6 +9,7 @@ export async function POST(req: Request) {
 
   const result = streamText({
     model: anthropic('claude-3-5-sonnet-20240620'),
+    system: "Use simple English. Give short answers.",
     messages,
   });
 
