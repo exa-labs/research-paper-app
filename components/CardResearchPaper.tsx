@@ -52,7 +52,7 @@ import { PaperDialog } from './PaperDialog';
           className="cursor-pointer hover:shadow-lg transition-shadow duration-200"
         >
            
-              <div className="mb-6 p-6 hover:translate-y-[-2px] md:p-8 bg-white rounded-none shadow-sm hover:shadow-lg border border-white transition-all duration-300  opacity-0 animate-fade-up"
+              <div className="mb-6 p-6 hover:translate-y-[-2px] md:p-8 bg-white rounded-none shadow-sm hover:shadow-md border border-white transition-all duration-300  opacity-0 animate-fade-up"
               style={{ animationDelay: `${animationDelay}ms` }}>
                 <h3 className="text-xl font-semibold text-gray-800 mb-3 line-clamp-2">
                   {paper.title}

@@ -33,11 +33,23 @@ export function PaperDialog({ paper, isOpen, onClose }: PaperDialogProps) {
 
     const handleSeeSimilar = () => {
         const queryParam = encodeURIComponent(paper.url);
-  const url = `/similar?query=${queryParam}`;
-  console.log("Navigating to:", url);
-  router.push(url);
+        const url = `/similar?query=${queryParam}`;
+        console.log("Navigating to:", url);
+        router.push(url);
         // const queryParam = encodeURIComponent(paper.url);
         // router.push(`/similar?query=${queryParam}`);
+    };
+
+    
+    const handleChatWithPaper = () => {
+    const paperData = {
+        summary: paper.summary || '',
+        title: paper.title || ''
+    };
+    
+    // Use btoa to encode the JSON string to base64
+    const encodedData = btoa(JSON.stringify(paperData));
+    router.push(`/chatpage?paper=${encodedData}`);
     };
 
     const formattedDate = paper.publishedDate 
@@ -85,6 +97,7 @@ export function PaperDialog({ paper, isOpen, onClose }: PaperDialogProps) {
             <Button
               variant="outline"
               className="flex items-center border-gray-300 gap-2 hover:bg-secondary-darkest md:px-6"
+              onClick={handleChatWithPaper}
             >
               <MessageSquare className="h-4 w-4" />
               Chat with Paper
