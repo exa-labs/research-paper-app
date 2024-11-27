@@ -35,7 +35,7 @@ export default function ChatWithPaperPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screens">
       <ChatWithPaper paperContext={paperContext} />
     </div>
   );
