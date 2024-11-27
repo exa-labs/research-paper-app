@@ -3,9 +3,6 @@
 import { useState, FormEvent } from "react";
 import { CardResearchPaper } from "./CardResearchPaper";
 import ResultsLoadingSkeleton from "./ui/ResultsLoadingSkeleton";
-import Link from "next/link";
-import AnimatedGradientText from "./ui/animated-gradient-text";
-import { ChevronRight } from "lucide-react";
 
 export default function ResearchPaperFinder() {
   const [isGenerating, setIsGenerating] = useState(false);
@@ -50,22 +47,7 @@ export default function ResearchPaperFinder() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen z-0">
-
-      {/* Badge positioned at the top */}
-      <div className="w-full flex justify-center pt-10 opacity-0 animate-fade-up [animation-delay:200ms]">
-        <Link href="https://exa.ai/" target="_blank">
-          <AnimatedGradientText>
-            <span className="px-2 inline animate-gradient bg-gradient-to-r from-[#254bf1] via-purple-600 to-[#254bf1] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent">
-               Learn About Exa - The Search Engine for AI
-            </span>
-            <ChevronRight className="ml-1 size-3 transition-transform duration-300 ease-in-out group-hover:translate-x-0.5 text-brand-default" />
-          </AnimatedGradientText>
-        </Link>
-      </div>
-
-
-    <main className="flex flex-col justify-center flex-grow w-full max-w-6xl md:max-w-4xl p-6">
+    <div className="w-full max-w-6xl md:max-w-4xl p-6 z-10">
 
       <h1 className="md:text-6xl text-4xl pt-6 pb-5 font-medium opacity-0 animate-fade-up [animation-delay:200ms]">
         Discover 
@@ -115,22 +97,6 @@ export default function ResearchPaperFinder() {
           ))}
         </div>
       )}
-
-    </main>
-
-      <footer className="w-full py-6 px-8 mb-6 mt-auto opacity-0 animate-fade-up [animation-delay:1400ms]">
-        <div className="max-w-md mx-auto">
-          <p className="text-md text-center text-gray-600">
-            <Link 
-              href="https://exa.ai/careers" 
-              target="_blank"
-              className="hover:underline cursor-pointer"
-            >
-              Exa.ai is hiring - join us now!
-            </Link>
-          </p>
-        </div>
-      </footer>
 
     </div>
   );

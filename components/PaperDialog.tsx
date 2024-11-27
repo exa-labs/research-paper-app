@@ -63,7 +63,7 @@ export function PaperDialog({ paper, isOpen, onClose }: PaperDialogProps) {
           {/* Action Buttons */}
           <div className="flex flex-col md:flex-row gap-4 pb-2">
             <Button
-              className="flex items-center gap-2 hover:bg-secondary-accent2x"
+              className="flex items-center gap-2 hover:bg-secondary-accent2x md:px-6"
               onClick={() => window.open(paper.url, '_blank')}
             >
               <BookOpen className="h-4 w-4" />
@@ -71,17 +71,17 @@ export function PaperDialog({ paper, isOpen, onClose }: PaperDialogProps) {
             </Button>
             <Button
               variant="outline"
-              className="flex items-center gap-2 hover:bg-secondary-darkest"
+              className="flex items-center border-gray-300 gap-2 hover:bg-secondary-darkest md:px-6"
             >
               <MessageSquare className="h-4 w-4" />
               Chat with Paper
             </Button>
             <Button
               variant="outline"
-              className="flex items-center gap-2 hover:bg-secondary-darkest"
+              className="flex items-center border-gray-300 gap-2 hover:bg-secondary-darkest md:px-6"
             >
               <Search className="h-4 w-4" />
-              Similar Papers
+              See Similar Papers
             </Button>
           </div>
 
