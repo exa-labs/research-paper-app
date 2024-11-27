@@ -58,7 +58,7 @@ export function PaperDialog({ paper, isOpen, onClose }: PaperDialogProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogOverlay style={{ backgroundColor: 'rgba(0, 0, 0, 0.1)' }} />
+      <DialogOverlay />
     
       <DialogContent className="w-[90%] md:w-[80%] max-w-4xl max-h-[90vh] overflow-y-auto bg-white rounded-none p-7">
         <DialogHeader className="space-y-6">
