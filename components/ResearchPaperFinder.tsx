@@ -56,7 +56,7 @@ export default function ResearchPaperFinder() {
       <div className="w-full flex justify-center pt-6 opacity-0 animate-fade-up [animation-delay:200ms]">
         <Link href="/about" target="_blank">
           <AnimatedGradientText>
-            <span className="px-2 inline animate-gradient bg-gradient-to-r from-[#254bf1] via-purple-600 to-[#254bf1] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent">
+            <span className="px-1 inline animate-gradient bg-gradient-to-r from-[#254bf1] via-purple-600 to-[#254bf1] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent">
                Learn About Exa - The Search Engine for AI
             </span>
             <ChevronRight className="ml-1 size-3 transition-transform duration-300 ease-in-out group-hover:translate-x-0.5 text-brand-default" />
@@ -73,8 +73,8 @@ export default function ResearchPaperFinder() {
         Papers 
       </h1>
 
-      <form onSubmit={handleSearch} className="mb-14">
-        <div className="flex gap-3">
+      <form onSubmit={handleSearch} className="mb-8">
+        <div className="flex gap-0">
           <input
             type="text"
             value={searchQuery}
@@ -93,7 +93,7 @@ export default function ResearchPaperFinder() {
       </form>
 
       {error && (
-        <div className="mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-none">
+        <div className="mt-2 p-2 bg-red-100 border border-red-400 text-red-700 rounded-none">
           {error}
         </div>
       )}
@@ -101,7 +101,7 @@ export default function ResearchPaperFinder() {
       {isGenerating && <ResultsLoadingSkeleton />}
 
       {!isGenerating && searchResults.length > 0 && (
-        <div className="mt-8 space-y-8">
+        <div className="space-y-4">
           {searchResults.map((paper, index) => (
             <CardResearchPaper
               key={index} 

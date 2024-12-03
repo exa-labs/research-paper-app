@@ -49,16 +49,16 @@ import { PaperDialog } from './PaperDialog';
       <>
         <div 
           onClick={() => setIsDialogOpen(true)}
-          className="cursor-pointer hover:shadow-lg transition-shadow duration-200"
+          className="cursor-pointer hover:shadow-md transition-shadow duration-100"
         >
            
-              <div className="mb-6 p-6 hover:translate-y-[-2px] md:p-8 bg-white rounded-none shadow-sm hover:shadow-md border border-white transition-all duration-300  opacity-0 animate-fade-up"
+              <div className="mb-3 p-6 hover:translate-y-[-2px] md:px-4 md:py-3 bg-secondary-fainter rounded-none shadow-sm hover:shadow-md border border-white transition-all duration-300 opacity-0 animate-fade-up"
               style={{ animationDelay: `${animationDelay}ms` }}>
-                <h3 className="text-xl font-semibold text-gray-800 mb-3 line-clamp-2">
+                <h3 className="text-lg font-semibold text-gray-800 mb-3 line-clamp-2">
                   {paper.title}
                 </h3>
         
-                <p className="text-gray-700 mb-4 line-clamp-3">
+                <p className="text-gray-700 mb-3 line-clamp-3 text-sm">
                   {paper.summary}
                 </p>
 
