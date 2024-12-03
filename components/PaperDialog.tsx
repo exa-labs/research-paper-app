@@ -10,8 +10,6 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Calendar, MessageSquare, BookOpen, Search } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 
 interface ResearchPaper {
     title: string;
@@ -29,18 +27,11 @@ interface PaperDialogProps {
 }
 
 export function PaperDialog({ paper, isOpen, onClose }: PaperDialogProps) {
-    
-    const router = useRouter();
-
-    useEffect(() => {
-        router.prefetch(`/similar`);
-        router.prefetch(`/chatpage`);
-    }, [router]);
 
     const handleSeeSimilar = () => {
         const queryParam = encodeURIComponent(paper.url);
         const url = `/similar?query=${queryParam}`;
-        router.push(url);
+        window.open(url, "_blank");
     };
 
     const handleChatWithPaper = () => {
@@ -50,7 +41,8 @@ export function PaperDialog({ paper, isOpen, onClose }: PaperDialogProps) {
         };
         
         const encodedData = btoa(JSON.stringify(paperData));
-        router.push(`/chatpage?paper=${encodedData}`);
+        const url = `/chatpage?paper=${encodedData}`;
+        window.open(url, "_blank");
     };
 
     const formattedDate = paper.publishedDate 

@@ -17,13 +17,13 @@ export async function POST(req: NextRequest) {
     const result = await exa.searchAndContents(
         query,
         {
-          type: "auto",
+          type: "neural",
           category: "research paper",
           text: true,
           summary: {
             query: `Give me a one/two lines summary about this research paper in simple english.`
           },
-          numResults: 10
+          numResults: 20
         }
     );
 

@@ -67,7 +67,7 @@ export default function ChatWithPaper({ paperContext }: ChatWithPaperProps) {
               <div
                 className={`max-w-3xl px-6 py-4 rounded-none ${
                   message.role === 'user'
-                    ? 'bg-[var(--brand-default)] text-white'
+                    ? 'bg-[var(--secondary-accent2x)] text-white'
                     : 'bg-[var(--secondary-darker)]'
                 }`}
               >

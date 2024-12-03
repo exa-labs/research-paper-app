@@ -1,11 +1,12 @@
 // ResearchPaperFinder.tsx
 "use client";
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useEffect } from "react";
 import { CardResearchPaper } from "./CardResearchPaper";
 import ResultsLoadingSkeleton from "./ui/ResultsLoadingSkeleton";
 import Link from "next/link";
 import AnimatedGradientText from "./ui/animated-gradient-text";
 import { ChevronRight } from "lucide-react";
+import SearchSuggestions from "./ui/SearchSuggestion";
 
 export default function ResearchPaperFinder() {
   const [isGenerating, setIsGenerating] = useState(false);
@@ -48,6 +49,17 @@ export default function ResearchPaperFinder() {
       setIsGenerating(false);
     }
   };
+  
+  useEffect(() => {
+    if (searchQuery && isGenerating) {
+      handleSearch(new Event("submit") as any);
+    }
+  }, [searchQuery]);
+  
+  const handleSuggestionClick = (query: string) => {
+    setIsGenerating(true);
+    setSearchQuery(query);
+  };
 
   return (
     <div className="flex flex-col min-h-screen w-full md:max-w-4xl z-0">
@@ -67,7 +79,7 @@ export default function ResearchPaperFinder() {
 
     <main className="flex flex-col justify-center flex-grow w-full md:max-w-4xl p-2 md:p-6">
 
-      <h1 className="md:text-4xl text-2xl pt-4 mb-8 font-medium opacity-0 animate-fade-up [animation-delay:400ms]">
+      <h1 className="md:text-4xl text-2xl pt-4 mb-8 font-medium opacity-0 animate-fade-up [animation-delay:300ms]">
         Discover NeurIPS Papers 
       </h1>
 
@@ -78,17 +90,23 @@ export default function ResearchPaperFinder() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Find research papers"
-            className="flex-1 p-3 rounded-none ring-2 ring-brand-default focus:outline-none opacity-0 animate-fade-up [animation-delay:600ms]"
+            className="flex-1 p-3 rounded-none ring-2 ring-brand-default focus:outline-none opacity-0 animate-fade-up [animation-delay:400ms]"
           />
           <button
             type="submit"
             disabled={isGenerating}
-            className="bg-brand-default text-white px-6 py-3 rounded-none ring-2 ring-brand-default hover:bg-brand-dark transition-colors disabled:opacity-50 opacity-0 animate-fade-up [animation-delay:600ms]"
+            className="bg-brand-default text-white px-6 py-3 rounded-none ring-2 ring-brand-default hover:bg-brand-dark transition-colors disabled:opacity-50 opacity-0 animate-fade-up [animation-delay:400ms]"
           >
             {isGenerating ? 'Searching...' : 'Search'}
           </button>
         </div>
       </form>
+
+      
+      {!isGenerating && searchResults.length === 0 && (
+        
+        <SearchSuggestions onSuggestionClick={handleSuggestionClick} />
+      )}
 
       {error && (
         <div className="mt-2 p-2 bg-red-100 border border-red-400 text-red-700 rounded-none">
@@ -112,7 +130,7 @@ export default function ResearchPaperFinder() {
 
     </main>
 
-      <footer className="w-full py-6 px-8 mb-6 mt-auto opacity-0 animate-fade-up [animation-delay:800ms]">
+      <footer className="w-full py-6 px-8 mb-6 mt-auto opacity-0 animate-fade-up [animation-delay:600ms]">
         <div className="max-w-md mx-auto">
           <p className="text-md text-center text-gray-600">
             <Link 

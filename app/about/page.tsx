@@ -1,6 +1,6 @@
 // app/about/page.tsx
 import Link from 'next/link'
-import { ArrowLeft } from 'lucide-react'
+import { Home } from 'lucide-react'
 
 export default function AboutPage() {
   return (
@@ -9,17 +9,17 @@ export default function AboutPage() {
         {/* Back Navigation */}
         <Link 
           href="/"
-          className="inline-flex items-center text-[var(--brand-default)] hover:text-[var(--brand-dark)] transition-colors mb-12 opacity-0 animate-fade-up [animation-delay:200ms]"
+          className="inline-flex items-center text-gray-500 hover:text-[var(--brand-dark)] transition-colors opacity-0 animate-fade-up [animation-delay:200ms]"
         >
-          <ArrowLeft className="h-4 w-4 mr-2" />
+          <Home className="h-4 w-4 mr-2" />
           Back to Home
         </Link>
 
         {/* Main Content */}
-        <main className="space-y-16">
+        <main className="space-y-12">
           {/* Header */}
           <div className="space-y-6 opacity-0 animate-fade-up [animation-delay:400ms]">
-            <h1 className="text-4xl md:text-6xl font-bold hover:text-brand-default">
+            <h1 className="text-3xl md:text-5xl font-bold hover:text-brand-default">
                 <Link href="https://exa.ai">
                      exa.ai
                 </Link>
