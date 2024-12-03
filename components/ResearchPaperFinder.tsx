@@ -50,10 +50,10 @@ export default function ResearchPaperFinder() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen z-0">
+    <div className="flex flex-col min-h-screen w-full md:max-w-4xl z-0">
 
       {/* Badge positioned at the top */}
-      <div className="w-full flex justify-center pt-10 opacity-0 animate-fade-up [animation-delay:200ms]">
+      <div className="w-full flex justify-center pt-6 opacity-0 animate-fade-up [animation-delay:200ms]">
         <Link href="/about" target="_blank">
           <AnimatedGradientText>
             <span className="px-2 inline animate-gradient bg-gradient-to-r from-[#254bf1] via-purple-600 to-[#254bf1] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent">
@@ -67,15 +67,11 @@ export default function ResearchPaperFinder() {
 
     <main className="flex flex-col justify-center flex-grow w-full md:max-w-4xl p-2 md:p-6">
 
-      <h1 className="md:text-6xl text-4xl pt-6 pb-5 font-medium opacity-0 animate-fade-up [animation-delay:400ms]">
-        Discover 
-        <span className="text-brand-default"> Research Papers </span>
-        Instantly
+      <h1 className="md:text-4xl text-2xl pt-4 mb-8 font-medium opacity-0 animate-fade-up [animation-delay:400ms]">
+        Discover
+        <span className="text-brand-default"> NeurIPS </span>
+        Papers 
       </h1>
-
-      <p className="text-black mb-12 opacity-0 animate-fade-up [animation-delay:600ms]">
-        Find relevant research papers. Explore knowledge effortlessly.
-      </p>
 
       <form onSubmit={handleSearch} className="mb-14">
         <div className="flex gap-3">
@@ -84,12 +80,12 @@ export default function ResearchPaperFinder() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Find research papers"
-            className="flex-1 p-3 rounded-none ring-2 ring-brand-default focus:outline-none opacity-0 animate-fade-up [animation-delay:800ms]"
+            className="flex-1 p-3 rounded-none ring-2 ring-brand-default focus:outline-none opacity-0 animate-fade-up [animation-delay:600ms]"
           />
           <button
             type="submit"
             disabled={isGenerating}
-            className="bg-brand-default text-white px-6 py-3 rounded-none ring-2 ring-brand-default hover:bg-brand-dark transition-colors disabled:opacity-50 opacity-0 animate-fade-up [animation-delay:1000ms]"
+            className="bg-brand-default text-white px-6 py-3 rounded-none ring-2 ring-brand-default hover:bg-brand-dark transition-colors disabled:opacity-50 opacity-0 animate-fade-up [animation-delay:600ms]"
           >
             {isGenerating ? 'Searching...' : 'Search'}
           </button>
@@ -110,7 +106,7 @@ export default function ResearchPaperFinder() {
             <CardResearchPaper
               key={index} 
               paper={paper} 
-              animationDelay={200 + index * 200}
+              animationDelay={100 + index * 100}
             />
           ))}
         </div>
@@ -118,7 +114,7 @@ export default function ResearchPaperFinder() {
 
     </main>
 
-      <footer className="w-full py-6 px-8 mb-6 mt-auto opacity-0 animate-fade-up [animation-delay:1200ms]">
+      <footer className="w-full py-6 px-8 mb-6 mt-auto opacity-0 animate-fade-up [animation-delay:800ms]">
         <div className="max-w-md mx-auto">
           <p className="text-md text-center text-gray-600">
             <Link 
