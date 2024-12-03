@@ -68,9 +68,7 @@ export default function ResearchPaperFinder() {
     <main className="flex flex-col justify-center flex-grow w-full md:max-w-4xl p-2 md:p-6">
 
       <h1 className="md:text-4xl text-2xl pt-4 mb-8 font-medium opacity-0 animate-fade-up [animation-delay:400ms]">
-        Discover
-        <span className="text-brand-default"> NeurIPS </span>
-        Papers 
+        Discover NeurIPS Papers 
       </h1>
 
       <form onSubmit={handleSearch} className="mb-8">

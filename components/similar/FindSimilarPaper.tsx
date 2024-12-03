@@ -71,22 +71,21 @@ export default function FindSimilarPaper() {
           onClick={() => router.push('/')}
           className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
         >
-          <Home className="w-6 h-6" />
-          <span>Go To Home</span>
+          <Home className="w-4 h-4" />
+          <span className="text-sm">Go To Home</span>
         </button>
       </div>
 
       
-        <h1 className="md:text-6xl text-4xl pt-6 pb-5 font-medium opacity-0 animate-fade-up [animation-delay:200ms]">
-          Find Similar
-          <span className="text-brand-default"> Papers</span>
+        <h1 className="md:text-4xl text-2xl pt-6 pb-3 font-medium opacity-0 animate-fade-up [animation-delay:200ms]">
+          Find Similar Papers
         </h1>
-        <p className="text-black mb-12 opacity-0 animate-fade-up [animation-delay:200ms]">
+        <p className="text-black mb-5 opacity-0 animate-fade-up [animation-delay:200ms]">
           Put the link of any paper and get similar papers.
         </p>
     
 
-      <form onSubmit={handleSearch} className="flex gap-3 mb-20 opacity-0 animate-fade-up [animation-delay:200ms]">
+      <form onSubmit={handleSearch} className="flex gap-0 mb-8 opacity-0 animate-fade-up [animation-delay:200ms]">
         <input
           type="text"
           value={searchQuery}
@@ -113,12 +112,12 @@ export default function FindSimilarPaper() {
 
     
     {!isGenerating && searchResults.length > 0 && (
-        <div className="mt-8 space-y-8">
+        <div className="space-y-4">
           {searchResults.map((paper, index) => (
             <CardResearchPaper
               key={index} 
               paper={paper} 
-              animationDelay={200 + index * 200}
+              animationDelay={100 + index * 100}
             />
           ))}
         </div>
