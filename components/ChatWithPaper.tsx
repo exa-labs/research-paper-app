@@ -6,24 +6,38 @@ import { Home, Send } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 
-interface ChatWithPaperProps {
-  paperContext: {
-    summary: string;
-    title: string;
-  };
+
+interface PaperContext {
+  summary: string;
+  title: string;
 }
 
-export default function ChatWithPaper({ paperContext }: ChatWithPaperProps) {
+interface ChatWithPaperProps {
+  paperContexts: PaperContext[];
+}
+
+export default function ChatWithPaper({ paperContexts }: ChatWithPaperProps) {
   const router = useRouter();
+  
+  // Create system message for multiple papers
+  const createSystemMessage = (papers: PaperContext[]) => {
+    if (papers.length === 1) {
+      return `You are an AI assistant helping with the research paper titled: "${papers[0].title}". Paper summary: ${papers[0].summary} Please provide accurate and helpful responses based on this paper's content. Use simple English. Give short answers.`;
+    }
+
+    const papersContext = papers.map((paper, index) => 
+      `Paper ${index + 1}: "${paper.title}"\nSummary: ${paper.summary}`
+    ).join('\n\n');
+
+    return `You are an AI assistant helping with multiple research papers:\n\n${papersContext}\n\nPlease provide accurate and helpful responses based on these papers' content. You can compare and contrast between papers when relevant. Use simple English. Give short answers.`;
+  };
+
   const { messages, input, handleInputChange, handleSubmit } = useChat({
     initialMessages: [
       {
         id: '1',
         role: 'system',
-        content: `You are an AI assistant helping with the research paper titled: "${paperContext.title}".
-                  Paper summary: ${paperContext.summary}
-                  Please provide accurate and helpful responses based on this paper's content.
-                  Use simple English. Give short answers.`
+        content: createSystemMessage(paperContexts)
       }
     ],
   });
@@ -42,9 +56,9 @@ export default function ChatWithPaper({ paperContext }: ChatWithPaperProps) {
               <Home className="h-10 w-10" />
             </Button>
             <div>
-                <h1 className="text-lg font-semibold mb-2">Chat with Paper</h1>
-                <h2 className="text-md text-gray-600 font-medium">
-                {paperContext.title}
+                <h1 className="text-lg font-semibold mb-2">Chat with Papers</h1>
+                <h2 className="text-sm text-gray-500 max-w-[80vw]">
+                {paperContexts.map(p => p.title).join('  •  ')}
                 </h2>
             </div>
           </div>

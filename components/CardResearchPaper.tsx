@@ -14,8 +14,20 @@ import { PaperDialog } from './PaperDialog';
     url: string;
   }
   
-  export function CardResearchPaper({ paper, animationDelay, }: { paper: ResearchPaper, animationDelay: number; }) {
-
+  
+  export function CardResearchPaper({ 
+    paper, 
+    animationDelay,
+    isSelectionMode = false,
+    isSelected = false,
+    onSelect = () => {},
+  }: { 
+    paper: ResearchPaper;
+    animationDelay: number;
+    isSelectionMode?: boolean;
+    isSelected?: boolean;
+    onSelect?: (paper: ResearchPaper) => void;
+  }) {
     
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -48,8 +60,9 @@ import { PaperDialog } from './PaperDialog';
 
       <>
         <div 
-          onClick={() => setIsDialogOpen(true)}
-          className="cursor-pointer hover:shadow-md transition-shadow duration-100"
+          onClick={() => isSelectionMode ? onSelect(paper) : setIsDialogOpen(true)}
+                className={`cursor-pointer hover:shadow-md transition-shadow duration-100 
+                  ${isSelectionMode && isSelected ? 'ring-2 ring-blue-500 bg-blue-50' : ''}`}
         >
            
               <div className="mb-3 p-6 hover:translate-y-[-2px] md:px-4 md:py-3 bg-secondary-fainter rounded-none shadow-sm hover:shadow-md border border-white transition-all duration-300 opacity-0 animate-fade-up"

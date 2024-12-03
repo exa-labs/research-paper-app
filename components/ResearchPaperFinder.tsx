@@ -14,6 +14,23 @@ export default function ResearchPaperFinder() {
   const [searchQuery, setSearchQuery] = useState('');
   const [error, setError] = useState<string | null>(null);
 
+  const [selectedPapers, setSelectedPapers] = useState<any[]>([]);
+  const [isSelectionMode, setIsSelectionMode] = useState(false);
+
+  // multi-paper chat
+  const handleMultiPaperChat = () => {
+    if (selectedPapers.length === 0) return;
+    
+    const papersData = selectedPapers.map(paper => ({
+      summary: paper.summary || '',
+      title: paper.title || ''
+    }));
+    
+    const encodedData = btoa(JSON.stringify(papersData));
+    window.open(`/chatpage?papers=${encodedData}`, "_blank");
+  };
+
+
   const handleSearch = async (e: FormEvent) => {
     e.preventDefault();
     
@@ -117,14 +134,54 @@ export default function ResearchPaperFinder() {
       {isGenerating && <ResultsLoadingSkeleton />}
 
       {!isGenerating && searchResults.length > 0 && (
+        <div className="flex items-center justify-between mb-4">
+          <button
+            onClick={() => setIsSelectionMode(!isSelectionMode)}
+            className="text-brand-default hover:text-brand-darker text-sm font-medium"
+          >
+            {isSelectionMode ? 'Cancel' : 'Chat with Papers'}
+          </button>
+          
+          {isSelectionMode && (
+            <div className="flex items-center gap-4">
+              <span className="text-sm text-gray-500">
+                {selectedPapers.length} selected
+              </span>
+              <button
+                onClick={handleMultiPaperChat}
+                disabled={selectedPapers.length === 0}
+                className={`px-4 py-2 rounded-none text-sm font-medium
+                  ${selectedPapers.length === 0 
+                    ? 'bg-gray-100 text-gray-400' 
+                    : 'bg-brand-default text-white hover:bg-brand-darker'}`}
+              >
+                Chat with Selected Papers
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+
+      {!isGenerating && searchResults.length > 0 && (
         <div className="space-y-4">
+          
           {searchResults.map((paper, index) => (
             <CardResearchPaper
-              key={index} 
-              paper={paper} 
+              key={index}
+              paper={paper}
               animationDelay={100 + index * 100}
+              isSelectionMode={isSelectionMode}
+              isSelected={selectedPapers.includes(paper)}
+              onSelect={(paper) => {
+                setSelectedPapers(prev => 
+                  prev.includes(paper)
+                    ? prev.filter(p => p !== paper)
+                    : [...prev, paper]
+                );
+              }}
             />
           ))}
+
         </div>
       )}
 
@@ -138,7 +195,7 @@ export default function ResearchPaperFinder() {
               target="_blank"
               className="hover:underline cursor-pointer"
             >
-              Exa.ai is hiring - join us now!
+              Exa is hiring - join us now!
             </Link>
           </p>
         </div>
