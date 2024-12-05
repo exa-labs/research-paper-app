@@ -4,8 +4,6 @@ import { useChat } from 'ai/react';
 import { Button } from './ui/button';
 import { Home, Send } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { motion } from 'framer-motion';
-
 
 interface PaperContext {
   summary: string;
@@ -18,8 +16,13 @@ interface ChatWithPaperProps {
 
 export default function ChatWithPaper({ paperContexts }: ChatWithPaperProps) {
   const router = useRouter();
-  
-  // Create system message for multiple papers
+  const suggestedQuestions = [
+    "Explain this paper simply",
+    "What are the main findings?",
+    "What problem does this paper solve?",
+    "What are the key contributions?",
+  ];
+
   const createSystemMessage = (papers: PaperContext[]) => {
     if (papers.length === 1) {
       return `You are an AI assistant helping with the research paper titled: "${papers[0].title}". Paper summary: ${papers[0].summary} Please provide accurate and helpful responses based on this paper's content. Use simple English. Give short answers.`;
@@ -32,7 +35,7 @@ export default function ChatWithPaper({ paperContexts }: ChatWithPaperProps) {
     return `You are an AI assistant helping with multiple research papers:\n\n${papersContext}\n\nPlease provide accurate and helpful responses based on these papers' content. You can compare and contrast between papers when relevant. Use simple English. Give short answers.`;
   };
 
-  const { messages, input, handleInputChange, handleSubmit } = useChat({
+  const { messages, input, handleInputChange, handleSubmit, append } = useChat({
     initialMessages: [
       {
         id: '1',
@@ -42,79 +45,100 @@ export default function ChatWithPaper({ paperContexts }: ChatWithPaperProps) {
     ],
   });
 
+  const handleQuestionClick = (question: string) => {
+    append({
+      content: question,
+      role: 'user',
+    });
+  };
+
   return (
-    <div className="relative min-h-screen bg-[var(--secondary-default)] animate-fade-up">
+    <div className="flex flex-col h-screen">
       {/* Header */}
-      <div className="border-b border-[var(--secondary-darker)] bg-[var(--secondary-faint)] pr-4 py-6 sm:px-6">
-        <div className="mx-auto max-w-5xl flex flex-col">
-          <div className="flex items-start">
-            <Button 
-              variant="ghost" 
+      <div className="border-b p-4">
+        <div className="max-w-4xl mx-auto w-full flex flex-col gap-2">
+          <div className="flex items-center">
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={() => router.push('/')}
               className="mr-1 md:mr-3 hover:bg-[var(--secondary-darker)] transition-colors"
             >
-              <Home className="h-10 w-10" />
+              <Home className="h-5 w-5" />
             </Button>
             <div>
-                <h1 className="text-lg font-semibold mb-2">Chat with Papers</h1>
-                <h2 className="text-sm text-gray-500 max-w-[80vw]">
+              <h1 className="text-xl font-semibold">Chat with Papers</h1>
+              <p className="text-sm text-gray-500">
                 {paperContexts.map(p => p.title).join('  •  ')}
-                </h2>
+              </p>
             </div>
           </div>
         </div>
       </div>
 
       {/* Chat Messages Container */}
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 pb-32">
-        <div className="space-y-6 py-8">
-          {messages.slice(1).map((message) => (
-            <motion.div
-              key={message.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-              className={`flex ${
-                message.role === 'user' ? 'justify-end' : 'justify-start'
-              }`}
-            >
+      <div className="flex-1 overflow-y-auto p-4">
+        <div className="max-w-4xl mx-auto w-full">
+          {messages.length <= 1 && (
+            <div className="mb-8 mt-6">
+              <h2 className="text-lg font-medium mb-4 text-center">
+                Suggested Questions
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {suggestedQuestions.map((question, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleQuestionClick(question)}
+                    className="p-4 text-left rounded-lg border border-gray-200 hover:border-secondary-accent2x hover:bg-secondary-darker transition-colors duration-200 hover:shadow-sm"
+                  >
+                    {question}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+          
+          <div className="space-y-6">
+            {messages.slice(1).map((message) => (
               <div
-                className={`max-w-3xl px-6 py-4 rounded-none ${
-                  message.role === 'user'
-                    ? 'bg-[var(--secondary-accent2x)] text-white'
-                    : 'bg-[var(--secondary-darker)]'
+                key={message.id}
+                className={`flex ${
+                  message.role === 'user' ? 'justify-end' : 'justify-start'
                 }`}
               >
-                {message.content}
+                <div
+                  className={`rounded-lg px-4 py-3 max-w-[85%] ${
+                    message.role === 'user'
+                      ? 'bg-secondary-darker text-black'
+                      : 'bg-secondary-fainter text-gray-900'
+                  }`}
+                >
+                  {message.content}
+                </div>
               </div>
-            </motion.div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 
       {/* Fixed Input Form */}
-      <div className="fixed bottom-0 left-0 right-0 bg-[var(--secondary-faint)] border-t border-[var(--secondary-darker)]">
-        <form 
+      <div className="border-t p-4">
+        <form
           onSubmit={handleSubmit}
-          className="mx-auto max-w-5xl px-4 sm:px-6 py-4"
+          className="max-w-4xl mx-auto w-full flex gap-2"
         >
-          <div className="flex space-x-4">
-            <input
-              type="text"
-              value={input}
-              onChange={handleInputChange}
-              placeholder="Ask something about the paper..."
-              className="flex-1 h-12 px-4 bg-white border border-[var(--secondary-darker)] focus:outline-none focus:border-[var(--brand-default)] transition-colors"
-            />
-            <Button 
-              type="submit"
-              className="h-12 px-6 bg-[var(--brand-default)] hover:bg-[var(--brand-dark)] text-white rounded-none transition-colors"
-            >
-              <Send className="h-5 w-5" />
-            </Button>
-          </div>
+          <input
+            value={input}
+            onChange={handleInputChange}
+            placeholder="Ask something about the paper..."
+            className="flex-1 rounded-lg border border-gray-200 p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <Button type="submit" className="h-auto">
+            <Send className="h-5 w-5" />
+          </Button>
         </form>
       </div>
+      
     </div>
   );
 }
