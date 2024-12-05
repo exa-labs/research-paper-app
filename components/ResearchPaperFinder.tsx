@@ -4,8 +4,6 @@ import { useState, FormEvent, useEffect } from "react";
 import { CardResearchPaper } from "./CardResearchPaper";
 import ResultsLoadingSkeleton from "./ui/ResultsLoadingSkeleton";
 import Link from "next/link";
-import AnimatedGradientText from "./ui/animated-gradient-text";
-import { ChevronRight } from "lucide-react";
 import SearchSuggestions from "./ui/SearchSuggestion";
 
 export default function ResearchPaperFinder() {

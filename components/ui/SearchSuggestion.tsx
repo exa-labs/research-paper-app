@@ -5,7 +5,7 @@ interface SearchSuggestion {
 }
 
 const RESEARCH_SUGGESTIONS: SearchSuggestion[] = [
-  { icon: "🧠", query: "Deep Learning architectures" },
+  { icon: "🧠", query: "Deep Learning architecture" },
   { icon: "🤖", query: "Reinforcement Learning advances" },
   { icon: "📊", query: "Large Language Models" },
   { icon: "📈", query: "Machine Learning optimization" },
