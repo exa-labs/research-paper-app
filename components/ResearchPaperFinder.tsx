@@ -165,7 +165,9 @@ export default function ResearchPaperFinder() {
       {!isGenerating && searchResults.length > 0 && (
         <div className="space-y-4">
           
-          {searchResults.map((paper, index) => (
+          {searchResults
+            .filter(paper => paper.title && paper.title.trim() !== '')
+            .map((paper, index) => (
             <CardResearchPaper
               key={index}
               paper={paper}
