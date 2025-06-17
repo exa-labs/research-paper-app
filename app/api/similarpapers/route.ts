@@ -17,11 +17,11 @@ export async function POST(req: NextRequest) {
     const result = await exa.searchAndContents(
         query,
         {
-          type: "neural",
+          type: "auto",
           category: "research paper",
           text: true,
           summary: {
-            query: `Give me a one/two lines summary about this research paper in simple english.`
+            query: `Give me a one line summary about this research paper in simple english, use simple words. Don't start with "this research paper is about...", get straight to the point.`
           },
           numResults: 10
         }

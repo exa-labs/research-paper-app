@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
           category: "research paper",
           text: true,
           summary: {
-            query: `Give me a one line summary about this research paper in simple english, use simple words, an.`
+            query: `Give me a one line summary about this research paper, use simple words. Don't start with "this research paper...", get straight to the point.`
           },
           numResults: 10
         }
