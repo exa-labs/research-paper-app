@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
     const result = await exa.searchAndContents(
         query,
         {
-          type: "neural",
+          type: "auto",
           category: "research paper",
           text: true,
           summary: {

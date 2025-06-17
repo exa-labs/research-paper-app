@@ -5,6 +5,8 @@ import { CardResearchPaper } from "./CardResearchPaper";
 import ResultsLoadingSkeleton from "./ui/ResultsLoadingSkeleton";
 import Link from "next/link";
 import SearchSuggestions from "./ui/SearchSuggestion";
+import AnimatedGradientText from "./ui/animated-gradient-text";
+import { ChevronRight } from "lucide-react";
 
 export default function ResearchPaperFinder() {
   const [isGenerating, setIsGenerating] = useState(false);
@@ -79,10 +81,22 @@ export default function ResearchPaperFinder() {
   return (
     <div className="flex flex-col min-h-screen w-full md:max-w-4xl z-0">
 
-    <main className="flex flex-col justify-center flex-grow w-full md:max-w-4xl p-2 md:p-6">
+       {/* Badge positioned at the top */}
+       <div className="w-full flex justify-center pt-6 opacity-0 animate-fade-up [animation-delay:200ms]">
+        <Link href="https://dashboard.exa.ai" target="_blank">
+          <AnimatedGradientText>
+            <span className="px-1 inline animate-gradient bg-gradient-to-r from-[#254bf1] via-purple-600 to-[#254bf1] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent">
+              Exa - The Web Search API
+            </span>
+            <ChevronRight className="ml-1 size-3 transition-transform duration-300 ease-in-out group-hover:translate-x-0.5 text-brand-default" />
+          </AnimatedGradientText>
+        </Link>
+      </div>
 
+    <main className="flex flex-col justify-center flex-grow w-full md:max-w-4xl p-2 md:p-6">
+      
       <h1 className="md:text-4xl text-2xl pt-4 mb-8 font-medium opacity-0 animate-fade-up [animation-delay:300ms]">
-        Discover NeurIPS Papers 
+        Discover Research Papers 
       </h1>
 
       <form onSubmit={handleSearch} className="mb-8">
