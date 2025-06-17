@@ -14,16 +14,14 @@ export async function POST(req: NextRequest) {
     }
 
     // Use Exa to search for research papers
-    const result = await exa.searchAndContents(
+    const result = await exa.findSimilarAndContents(
         query,
         {
-          type: "auto",
-          category: "research paper",
+          numResults: 10,
           text: true,
           summary: {
             query: `Give me a one line summary about this research paper in simple english, use simple words. Don't start with "this research paper is about...", get straight to the point.`
           },
-          numResults: 10
         }
     );
 
