@@ -4,6 +4,7 @@ import { useChat } from 'ai/react';
 import { Button } from './ui/button';
 import { Home, Send } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { getAssetPath } from '@/app/utils';
 
 interface PaperContext {
   summary: string;
@@ -36,6 +37,7 @@ export default function ChatWithPaper({ paperContexts }: ChatWithPaperProps) {
   };
 
   const { messages, input, handleInputChange, handleSubmit, append } = useChat({
+    api: getAssetPath('/api/chat'),
     initialMessages: [
       {
         id: '1',

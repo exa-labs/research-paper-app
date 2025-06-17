@@ -24,6 +24,7 @@ const reckless = localFont({
 export const metadata: Metadata = {
   title: "Research Papers App",
   description: "Discover Research Papers Instantly",
+  metadataBase: new URL("https://demo.exa.ai/research-paper-app"),
 };
 
 export default function RootLayout({

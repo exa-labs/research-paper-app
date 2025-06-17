@@ -7,6 +7,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { Home } from 'lucide-react';
 import ResultsLoadingSkeleton from "../ui/ResultsLoadingSkeleton";
 import { CardResearchPaper } from "../CardResearchPaper";
+import { getAssetPath } from "@/app/utils";
 
 export default function FindSimilarPaper() {
   const [isGenerating, setIsGenerating] = useState(false);
@@ -39,7 +40,7 @@ export default function FindSimilarPaper() {
     setError(null);
 
     try {
-      const response = await fetch('/api/similarpapers', {
+      const response = await fetch(getAssetPath('/api/similarpapers'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

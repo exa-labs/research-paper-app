@@ -7,6 +7,7 @@ import Link from "next/link";
 import SearchSuggestions from "./ui/SearchSuggestion";
 import AnimatedGradientText from "./ui/animated-gradient-text";
 import { ChevronRight } from "lucide-react";
+import { getAssetPath } from "@/app/utils";
 
 export default function ResearchPaperFinder() {
   const [isGenerating, setIsGenerating] = useState(false);
@@ -27,7 +28,7 @@ export default function ResearchPaperFinder() {
     }));
     
     const encodedData = btoa(JSON.stringify(papersData));
-    window.open(`/chatpage?papers=${encodedData}`, "_blank");
+    window.open(getAssetPath(`/chatpage?papers=${encodedData}`), "_blank");
   };
 
 
@@ -43,7 +44,7 @@ export default function ResearchPaperFinder() {
     setError(null);
 
     try {
-      const response = await fetch('/api/exasearch', {
+      const response = await fetch(getAssetPath('/api/exasearch'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

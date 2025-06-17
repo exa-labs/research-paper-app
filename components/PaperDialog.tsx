@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Calendar, MessageSquare, BookOpen, Search } from "lucide-react";
+import { getAssetPath } from "@/app/utils";
 
 interface ResearchPaper {
     title: string;
@@ -30,7 +31,7 @@ export function PaperDialog({ paper, isOpen, onClose }: PaperDialogProps) {
 
     const handleSeeSimilar = () => {
         const queryParam = encodeURIComponent(paper.url);
-        const url = `/similar?query=${queryParam}`;
+        const url = getAssetPath(`/similar?query=${queryParam}`);
         window.open(url, "_blank");
     };
 
@@ -41,7 +42,7 @@ export function PaperDialog({ paper, isOpen, onClose }: PaperDialogProps) {
         };
         
         const encodedData = btoa(JSON.stringify(paperData));
-        const url = `/chatpage?paper=${encodedData}`;
+        const url = getAssetPath(`/chatpage?paper=${encodedData}`);
         window.open(url, "_blank");
     };
 
