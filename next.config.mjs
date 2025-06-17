@@ -4,7 +4,6 @@ const nextConfig = {
     experimental: {
       serverActions: {
         allowedOrigins: ["demo.exa.ai"],
-        allowedForwardedHosts: ["demo.exa.ai"],
       },
     },
   };
