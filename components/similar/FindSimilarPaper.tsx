@@ -114,7 +114,9 @@ export default function FindSimilarPaper() {
     
     {!isGenerating && searchResults.length > 0 && (
         <div className="space-y-4">
-          {searchResults.map((paper, index) => (
+          {searchResults
+            .filter((paper: any) => paper.title && paper.title.trim() !== '')
+            .map((paper, index) => (
             <CardResearchPaper
               key={index} 
               paper={paper} 
