@@ -109,7 +109,7 @@ export default function ChatWithPaper({ paperContexts }: ChatWithPaperProps) {
                 }`}
               >
                 <div
-                  className={`rounded-lg px-4 py-3 max-w-[85%] ${
+                  className={`rounded-lg px-4 py-3 max-w-[85%] whitespace-pre-wrap ${
                     message.role === 'user'
                       ? 'bg-secondary-darker text-black'
                       : 'bg-secondary-fainter text-gray-900'
