@@ -3,6 +3,7 @@
 import { useState, FormEvent, useEffect } from "react";
 import { CardResearchPaper } from "./CardResearchPaper";
 import ResultsLoadingSkeleton from "./ui/ResultsLoadingSkeleton";
+import AnswerBox from "./ui/AnswerBox";
 import Link from "next/link";
 import SearchSuggestions from "./ui/SearchSuggestion";
 import AnimatedGradientText from "./ui/animated-gradient-text";
@@ -14,6 +15,12 @@ export default function ResearchPaperFinder() {
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [error, setError] = useState<string | null>(null);
+
+  // Answer state
+  const [answer, setAnswer] = useState('');
+  const [answerCitations, setAnswerCitations] = useState<any[]>([]);
+  const [isAnswerLoading, setIsAnswerLoading] = useState(false);
+  const [answerError, setAnswerError] = useState<string | null>(null);
 
   const [selectedPapers, setSelectedPapers] = useState<any[]>([]);
   const [isSelectionMode, setIsSelectionMode] = useState(false);
@@ -31,6 +38,91 @@ export default function ResearchPaperFinder() {
     window.open(getAssetPath(`/chatpage?papers=${encodedData}`), "_blank");
   };
 
+  // Handle streaming answer from answer endpoint
+  const handleAnswerStream = async (query: string) => {
+    setIsAnswerLoading(true);
+    setAnswer('');
+    setAnswerCitations([]);
+    setAnswerError(null);
+
+    try {
+      const response = await fetch(getAssetPath('/api/answer'), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ query }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to get answer');
+      }
+
+      const reader = response.body?.getReader();
+      if (!reader) {
+        throw new Error('No reader available');
+      }
+
+      let accumulatedAnswer = '';
+      let citations: any[] = [];
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = new TextDecoder().decode(value);
+        const lines = chunk.split('\n').filter(line => line.trim());
+
+        for (const line of lines) {
+          try {
+            const data = JSON.parse(line);
+            
+            // Handle the correct streaming format: {"content": "..."}
+            if (data.content) {
+              accumulatedAnswer += data.content;
+              setAnswer(accumulatedAnswer);
+            } else if (data.citations) {
+              citations = data.citations;
+              setAnswerCitations(citations);
+            }
+          } catch (e) {
+            // Skip invalid JSON lines
+            console.log('Skipping invalid JSON:', line);
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error in handleAnswerStream:', error);
+      setAnswerError(error instanceof Error ? error.message : 'Failed to get answer');
+    } finally {
+      setIsAnswerLoading(false);
+    }
+  };
+
+  // Handle search from search endpoint
+  const handleSearchResults = async (query: string) => {
+    try {
+      const response = await fetch(getAssetPath('/api/exasearch'), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ query }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to fetch search results.');
+      }
+
+      const data = await response.json();
+      setSearchResults(data.results || []);
+    } catch (error) {
+      console.error('Error in handleSearchResults:', error);
+      setError(error instanceof Error ? error.message : 'An unexpected error occurred.');
+      setSearchResults([]);
+    }
+  };
 
   const handleSearch = async (e: FormEvent) => {
     e.preventDefault();
@@ -43,40 +135,35 @@ export default function ResearchPaperFinder() {
     setIsGenerating(true);
     setError(null);
 
+    // Call both endpoints in parallel
     try {
-      const response = await fetch(getAssetPath('/api/exasearch'), {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ query: searchQuery }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to fetch search results.');
-      }
-
-      const data = await response.json();
-      setSearchResults(data.results || []);
+      await Promise.all([
+        handleSearchResults(searchQuery),
+        handleAnswerStream(searchQuery)
+      ]);
     } catch (error) {
-      console.error('Error in handleSearch:', error);
-      setError(error instanceof Error ? error.message : 'An unexpected error occurred.');
-      setSearchResults([]);
+      console.error('Error in parallel requests:', error);
     } finally {
       setIsGenerating(false);
     }
   };
   
-  useEffect(() => {
-    if (searchQuery && isGenerating) {
-      handleSearch(new Event("submit") as any);
-    }
-  }, [searchQuery]);
-  
-  const handleSuggestionClick = (query: string) => {
-    setIsGenerating(true);
+  const handleSuggestionClick = async (query: string) => {
     setSearchQuery(query);
+    setIsGenerating(true);
+    setError(null);
+
+    // Call both endpoints in parallel for the suggestion
+    try {
+      await Promise.all([
+        handleSearchResults(query),
+        handleAnswerStream(query)
+      ]);
+    } catch (error) {
+      console.error('Error in parallel requests:', error);
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   return (
@@ -107,9 +194,17 @@ export default function ResearchPaperFinder() {
         </div>
       </form>
 
+      {/* Answer Box */}
+      {(isAnswerLoading || answer || answerError) && (
+        <AnswerBox
+          answer={answer}
+          isLoading={isAnswerLoading}
+          citations={answerCitations}
+          error={answerError}
+        />
+      )}
       
-      {!isGenerating && searchResults.length === 0 && (
-        
+      {!isGenerating && searchResults.length === 0 && !answer && (
         <SearchSuggestions onSuggestionClick={handleSuggestionClick} />
       )}
 

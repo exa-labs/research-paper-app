@@ -1,4 +1,4 @@
-// app/api/exasearch/route.ts
+// app/api/answer/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import Exa from "exa-js";
 
@@ -13,18 +13,41 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'search query is required' }, { status: 400 });
     }
 
-    // Use Exa to search for research papers
-    const result = await exa.streamAnswer(
-        "Are vaccines safe for pregnant women? (Get citations only from Research Papers)",
+    // Use Exa to get a streaming answer
+    const stream = await exa.streamAnswer(
+        query,
         {
           model: "exa",
-          systemPrompt: "The first word should be YES or NO, if it is a question."
+          systemPrompt: "The first word should be YES or NO, if it is a question. Provide a comprehensive answer based on research papers and scientific evidence."
         }
-      )
+      );
 
+    // Create a ReadableStream to handle the streaming response
+    const readableStream = new ReadableStream({
+      async start(controller) {
+        try {
+          for await (const chunk of stream) {
+            // Send each chunk as a JSON string followed by newline
+            const chunkData = JSON.stringify(chunk) + '\n';
+            controller.enqueue(new TextEncoder().encode(chunkData));
+          }
+          controller.close();
+        } catch (error) {
+          console.error('Error in stream:', error);
+          controller.error(error);
+        }
+      },
+    });
 
-     return NextResponse.json({ results: result });
+    return new Response(readableStream, {
+      headers: {
+        'Content-Type': 'text/plain; charset=utf-8',
+        'Cache-Control': 'no-cache',
+        'Connection': 'keep-alive',
+      },
+    });
   } catch (error) {
-    return NextResponse.json({ error: `Failed to perform search | ${error}` }, { status: 500 });
+    console.error('Error in answer endpoint:', error);
+    return NextResponse.json({ error: `Failed to get answer | ${error}` }, { status: 500 });
   }
 }
