@@ -246,28 +246,33 @@ export default function ResearchPaperFinder() {
       )}
 
       {!isGenerating && searchResults.length > 0 && (
-        <div className="space-y-4">
-          
-          {searchResults
-            .filter(paper => paper.title && paper.title.trim() !== '')
-            .map((paper, index) => (
-            <CardResearchPaper
-              key={index}
-              paper={paper}
-              animationDelay={100 + index * 100}
-              isSelectionMode={isSelectionMode}
-              isSelected={selectedPapers.includes(paper)}
-              onSelect={(paper) => {
-                setSelectedPapers(prev => 
-                  prev.includes(paper)
-                    ? prev.filter(p => p !== paper)
-                    : [...prev, paper]
-                );
-              }}
-            />
-          ))}
+        <>
+          <h2 className="text-2xl font-semibold mb-6 text-gray-800">
+            Related Research Papers
+          </h2>
+          <div className="space-y-4">
+            
+            {searchResults
+              .filter(paper => paper.title && paper.title.trim() !== '')
+              .map((paper, index) => (
+              <CardResearchPaper
+                key={index}
+                paper={paper}
+                animationDelay={100 + index * 100}
+                isSelectionMode={isSelectionMode}
+                isSelected={selectedPapers.includes(paper)}
+                onSelect={(paper) => {
+                  setSelectedPapers(prev => 
+                    prev.includes(paper)
+                      ? prev.filter(p => p !== paper)
+                      : [...prev, paper]
+                  );
+                }}
+              />
+            ))}
 
-        </div>
+          </div>
+        </>
       )}
 
     </main>

@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { CheckCircle, XCircle, Loader2, MessageSquare } from "lucide-react";
+import { MessageSquare } from "lucide-react";
 
 interface AnswerBoxProps {
   answer: string;
@@ -17,46 +17,130 @@ export default function AnswerBox({ answer, isLoading, citations, error }: Answe
     if (answer) {
       setDisplayedAnswer(answer);
       
-      // Determine answer type based on first word
-      const firstWord = answer.trim().split(' ')[0].toLowerCase();
-      if (firstWord === 'yes') {
+      // More robust detection - check if answer starts with YES or NO (case insensitive)
+      const cleanAnswer = answer.trim().toLowerCase();
+      console.log('Checking answer:', cleanAnswer.substring(0, 50));
+      
+      if (cleanAnswer.startsWith('yes')) {
+        console.log('Setting answer type to YES');
         setAnswerType('yes');
-      } else if (firstWord === 'no') {
+      } else if (cleanAnswer.startsWith('no')) {
+        console.log('Setting answer type to NO');
         setAnswerType('no');
       } else {
+        console.log('Setting answer type to neutral, answer starts with:', cleanAnswer.substring(0, 10));
         setAnswerType('neutral');
       }
     }
   }, [answer]);
 
-  // Function to render text with clickable links
-  const renderTextWithLinks = (text: string) => {
-    // Regex to match markdown-style links [text](url)
-    const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
-    const parts = [];
-    let lastIndex = 0;
-    let match;
+  // Simple markdown renderer for basic formatting
+  const renderMarkdown = (text: string) => {
+    const lines = text.split('\n');
+    const elements: JSX.Element[] = [];
+    
+    lines.forEach((line, lineIndex) => {
+      if (line.trim() === '') {
+        elements.push(<br key={`br-${lineIndex}`} />);
+        return;
+      }
 
-    while ((match = linkRegex.exec(text)) !== null) {
-      // Add text before the link
-      if (match.index > lastIndex) {
-        parts.push(text.slice(lastIndex, match.index));
+      // Handle bullet points
+      if (line.trim().startsWith('*   ') || line.trim().startsWith('* ')) {
+        const bulletContent = line.replace(/^\s*\*\s+/, '');
+        elements.push(
+          <div key={lineIndex} className="flex items-start gap-2 mb-2">
+            <span className="text-gray-400 mt-1">•</span>
+            <span>{renderInlineMarkdown(bulletContent)}</span>
+          </div>
+        );
+        return;
+      }
+
+      // Handle headers (if any)
+      if (line.startsWith('**') && line.endsWith('**') && line.indexOf('**', 2) === line.length - 2) {
+        const headerText = line.replace(/\*\*/g, '');
+        elements.push(
+          <h4 key={lineIndex} className="font-semibold text-gray-800 mt-4 mb-2">
+            {headerText}
+          </h4>
+        );
+        return;
+      }
+
+      // Regular paragraphs
+      elements.push(
+        <p key={lineIndex} className="mb-3 leading-relaxed">
+          {renderInlineMarkdown(line)}
+        </p>
+      );
+    });
+
+    return elements;
+  };
+
+  // Render inline markdown (bold text, links)
+  const renderInlineMarkdown = (text: string) => {
+    const parts: (string | JSX.Element)[] = [];
+    let currentIndex = 0;
+
+    // First handle links [text](url)
+    const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+    let linkMatch;
+    
+    while ((linkMatch = linkRegex.exec(text)) !== null) {
+      // Add text before link
+      if (linkMatch.index > currentIndex) {
+        const beforeText = text.slice(currentIndex, linkMatch.index);
+        parts.push(...processBoldText(beforeText));
       }
       
-      // Add the link
+      // Add link
       parts.push(
         <a
-          key={`link-${match.index}`}
-          href={match[2]}
+          key={`link-${linkMatch.index}`}
+          href={linkMatch[2]}
           target="_blank"
           rel="noopener noreferrer"
           className="text-blue-600 hover:text-blue-800 hover:underline font-medium"
         >
-          {match[1]}
+          {linkMatch[1]}
         </a>
       );
       
-      lastIndex = linkRegex.lastIndex;
+      currentIndex = linkRegex.lastIndex;
+    }
+    
+    // Add remaining text
+    if (currentIndex < text.length) {
+      const remainingText = text.slice(currentIndex);
+      parts.push(...processBoldText(remainingText));
+    }
+    
+    return parts.length > 0 ? parts : processBoldText(text);
+  };
+
+  // Process bold text **text**
+  const processBoldText = (text: string): (string | JSX.Element)[] => {
+    const parts: (string | JSX.Element)[] = [];
+    const boldRegex = /\*\*([^*]+)\*\*/g;
+    let lastIndex = 0;
+    let match;
+
+    while ((match = boldRegex.exec(text)) !== null) {
+      // Add text before bold
+      if (match.index > lastIndex) {
+        parts.push(text.slice(lastIndex, match.index));
+      }
+      
+      // Add bold text
+      parts.push(
+        <strong key={`bold-${match.index}`} className="font-semibold text-gray-800">
+          {match[1]}
+        </strong>
+      );
+      
+      lastIndex = boldRegex.lastIndex;
     }
     
     // Add remaining text
@@ -64,14 +148,31 @@ export default function AnswerBox({ answer, isLoading, citations, error }: Answe
       parts.push(text.slice(lastIndex));
     }
     
-    return parts.length > 0 ? parts : text;
+    return parts.length > 0 ? parts : [text];
+  };
+
+  const getStatusIndicator = () => {
+    console.log('Current answerType:', answerType, 'isLoading:', isLoading);
+    
+    if (isLoading) {
+      return <div className="w-3 h-3 bg-gray-400 rounded-full flex-shrink-0 mt-1"></div>;
+    }
+    
+    switch (answerType) {
+      case 'yes':
+        return <div className="w-3 h-3 bg-green-500 rounded-full flex-shrink-0 mt-1"></div>;
+      case 'no':
+        return <div className="w-3 h-3 bg-red-500 rounded-full flex-shrink-0 mt-1"></div>;
+      default:
+        return <div className="w-3 h-3 bg-gray-400 rounded-full flex-shrink-0 mt-1"></div>;
+    }
   };
 
   if (error) {
     return (
-      <div className="w-full mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+      <div className="w-full mb-6 p-6 bg-red-50 border border-red-200 rounded-sm">
         <div className="flex items-center gap-3">
-          <XCircle className="w-5 h-5 text-red-500 flex-shrink-0" />
+          <div className="w-3 h-3 bg-red-500 rounded-full flex-shrink-0"></div>
           <p className="text-red-700 text-sm">{error}</p>
         </div>
       </div>
@@ -82,54 +183,13 @@ export default function AnswerBox({ answer, isLoading, citations, error }: Answe
     return null;
   }
 
-  const getStatusIcon = () => {
-    if (isLoading) {
-      return <Loader2 className="w-5 h-5 text-blue-500 animate-spin flex-shrink-0" />;
-    }
-    
-    switch (answerType) {
-      case 'yes':
-        return <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />;
-      case 'no':
-        return <XCircle className="w-5 h-5 text-red-500 flex-shrink-0" />;
-      default:
-        return <MessageSquare className="w-5 h-5 text-blue-500 flex-shrink-0" />;
-    }
-  };
-
-  const getBorderColor = () => {
-    if (isLoading) return 'border-blue-200';
-    
-    switch (answerType) {
-      case 'yes':
-        return 'border-green-200';
-      case 'no':
-        return 'border-red-200';
-      default:
-        return 'border-gray-200';
-    }
-  };
-
-  const getBackgroundColor = () => {
-    if (isLoading) return 'bg-blue-50';
-    
-    switch (answerType) {
-      case 'yes':
-        return 'bg-green-50';
-      case 'no':
-        return 'bg-red-50';
-      default:
-        return 'bg-gray-50';
-    }
-  };
-
   return (
-    <div className={`w-full mb-6 p-6 ${getBackgroundColor()} border ${getBorderColor()} rounded-lg shadow-sm opacity-0 animate-fade-up [animation-delay:500ms]`}>
+    <div className="w-full mb-6 p-6 bg-secondary-faint hover:bg-secondary-fainter border rounded-sm shadow-none transition-all duration-300 opacity-0 animate-fade-up [animation-delay:500ms]">
       <div className="flex items-start gap-4">
-        {getStatusIcon()}
+        {getStatusIndicator()}
         <div className="flex-1 min-w-0">
-          <h3 className="text-lg font-semibold text-gray-900 mb-3">
-            {isLoading ? 'Generating answer...' : 'AI Answer'}
+          <h3 className="text-lg font-semibold text-gray-800 mb-4">
+            Answer
           </h3>
           
           {isLoading && !displayedAnswer && (
@@ -141,41 +201,8 @@ export default function AnswerBox({ answer, isLoading, citations, error }: Answe
           )}
           
           {displayedAnswer && (
-            <div className="prose prose-gray max-w-none">
-              <p className="text-gray-800 leading-relaxed text-base">
-                {renderTextWithLinks(displayedAnswer)}
-              </p>
-            </div>
-          )}
-          
-          {citations && citations.length > 0 && !isLoading && (
-            <div className="mt-6 pt-4 border-t border-gray-300">
-              <h4 className="text-sm font-semibold text-gray-700 mb-3">Sources:</h4>
-              <div className="grid gap-2">
-                {citations.slice(0, 4).map((citation, index) => (
-                  <a
-                    key={index}
-                    href={citation.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block p-2 bg-white rounded border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-colors"
-                  >
-                    <div className="text-sm font-medium text-blue-700 hover:text-blue-900 line-clamp-1">
-                      {citation.title}
-                    </div>
-                    {citation.snippet && (
-                      <div className="text-xs text-gray-600 mt-1 line-clamp-2">
-                        {citation.snippet}
-                      </div>
-                    )}
-                  </a>
-                ))}
-                {citations.length > 4 && (
-                  <p className="text-sm text-gray-500 mt-2">
-                    +{citations.length - 4} more sources
-                  </p>
-                )}
-              </div>
+            <div className="text-gray-700 text-base">
+              {renderMarkdown(displayedAnswer)}
             </div>
           )}
         </div>
