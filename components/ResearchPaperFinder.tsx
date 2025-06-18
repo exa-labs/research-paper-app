@@ -216,38 +216,10 @@ export default function ResearchPaperFinder() {
 
       {isGenerating && <ResultsLoadingSkeleton />}
 
-      {!isGenerating && searchResults.length > 0 && (
-        <div className="flex items-center justify-between mb-4">
-          <button
-            onClick={() => setIsSelectionMode(!isSelectionMode)}
-            className="text-brand-default hover:text-brand-darker text-sm font-medium"
-          >
-            {isSelectionMode ? 'Cancel' : 'Chat with Papers'}
-          </button>
-          
-          {isSelectionMode && (
-            <div className="flex items-center gap-4">
-              <span className="text-sm text-gray-500">
-                {selectedPapers.length} selected
-              </span>
-              <button
-                onClick={handleMultiPaperChat}
-                disabled={selectedPapers.length === 0}
-                className={`px-4 py-2 rounded-none text-sm font-medium
-                  ${selectedPapers.length === 0 
-                    ? 'bg-gray-100 text-gray-400' 
-                    : 'bg-brand-default text-white hover:bg-brand-darker'}`}
-              >
-                Chat with Selected Papers
-              </button>
-            </div>
-          )}
-        </div>
-      )}
 
       {!isGenerating && searchResults.length > 0 && (
         <>
-          <h2 className="text-2xl font-semibold mb-6 text-gray-800">
+          <h2 className="text-2xl font-normal mb-6 text-gray-800 mt-10">
             Related Research Papers
           </h2>
           <div className="space-y-4">
