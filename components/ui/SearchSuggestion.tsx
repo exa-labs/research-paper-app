@@ -165,8 +165,8 @@ export default function SearchSuggestions({ onSuggestionClick }: SearchSuggestio
               <button
                 key={suggestionIndex}
                 onClick={() => onSuggestionClick(suggestion.question)}
-                className="w-full flex items-center space-x-2 px-3 py-2 bg-gray-50 border border-gray-200 
-                           hover:border-[var(--brand-default)] hover:bg-gray-100 transition-all duration-200 
+                className="w-full flex items-center space-x-2 px-3 py-2 bg-transparent border border-gray-200 
+                           hover:border-[var(--brand-default)] hover:bg-white transition-all duration-200 
                            text-left group"
               >
                 <span className="text-sm flex-shrink-0">{suggestion.emoji}</span>
