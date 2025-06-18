@@ -65,7 +65,7 @@ export default function FindSimilarPaper() {
   };
 
   return (
-    <div className="w-full md:max-w-4xl p-2 md:p-6 z-10">
+    <div className="w-full md:max-w-5xl p-2 md:p-6 z-10">
       
       <div className="top-8 left-8 mb-4 opacity-0 animate-fade-up [animation-delay:200ms]">
         <button 

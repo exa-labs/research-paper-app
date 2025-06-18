@@ -80,12 +80,12 @@ export default function ResearchPaperFinder() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen w-full md:max-w-4xl z-0">
+    <div className="flex flex-col min-h-screen w-full md:max-w-5xl z-0">
 
-    <main className="flex flex-col justify-center flex-grow w-full md:max-w-4xl p-2 md:p-6">
+    <main className="flex flex-col justify-center flex-grow w-full md:max-w-5xl p-2 md:p-6">
       
       <h1 className="md:text-4xl text-2xl pt-4 mb-8 font-medium opacity-0 animate-fade-up [animation-delay:300ms]">
-        Discover Research Papers 
+        Ask questions and get answers based on Research Papers
       </h1>
 
       <form onSubmit={handleSearch} className="mb-8">
