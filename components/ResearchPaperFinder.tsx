@@ -215,9 +215,17 @@ export default function ResearchPaperFinder() {
 
     <div className="flex flex-col min-h-screen w-full md:max-w-5xl z-0">
 
-    <main className="flex flex-col justify-center flex-grow w-full md:max-w-5xl p-2 md:p-6">
+    <main className={`flex flex-col flex-grow w-full md:max-w-5xl p-2 md:p-6 pt-20 md:pt-24 ${
+      !searchQuery && !isGenerating && searchResults.length === 0 && !answer 
+        ? 'justify-center' 
+        : ''
+    }`}>
       
-      <h1 className="md:text-4xl text-2xl mt-10 mb-8 font-medium opacity-0 animate-fade-up [animation-delay:300ms]">
+      <h1 className={`md:text-4xl text-2xl mb-8 font-medium opacity-0 animate-fade-up [animation-delay:300ms] ${
+        !searchQuery && !isGenerating && searchResults.length === 0 && !answer 
+          ? 'mt-28 md:mt-56' 
+          : 'mt-2 md:mt-2'
+      }`}>
         Ask questions and get answers based on Research Papers
       </h1>
 

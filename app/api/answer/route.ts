@@ -15,10 +15,10 @@ export async function POST(req: NextRequest) {
 
     // Use Exa to get a streaming answer
     const stream = await exa.streamAnswer(
-        query,
+        `${query}. (Only use Research Papers as citations. You may start your answer with "Yes" or "No".)`,
         {
           model: "exa",
-          systemPrompt: "Provide a good answer based on research papers and scientific evidence. Use simple words and avoid complex sentences. Don't have very long answer. Use short sentences. If there is a long sentence, break it into multiple short sentences. Say Yes or No at the beginning of your answer."
+          systemPrompt: "Provide a good answer based on research papers and scientific evidence. Use simple words and avoid complex sentences. Don't have very long answer. Use short sentences. If there is a long sentence, break it into multiple short sentences."
         }
       );
 
