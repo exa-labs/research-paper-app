@@ -167,11 +167,57 @@ export default function ResearchPaperFinder() {
   };
 
   return (
+    <div>
+    {/* Top Navigation Bar */}
+    <div className="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-sm border-b z-50">
+      <div className="md:max-w-4xl mx-auto px-4 md:px-6 py-3 flex justify-between items-center">
+        <a
+          href="https://dashboard.exa.ai/playground/"
+          target="_blank"
+          className="flex items-center px-4 py-1.5 bg-white border-2 border-[var(--brand-default)] text-[var(--brand-default)] 
+          rounded-none hover:bg-[var(--brand-default)] hover:text-white transition-all duration-200 
+          font-medium shadow-sm hover:shadow-md hover:-translate-y-0.5"
+        >
+          <span className="text-sm">Try Exa API</span>
+        </a>
+        <div className="flex items-center gap-4 text-md text-gray-600">
+          <a
+            href="https://exa.ai/demos"
+            target="_blank"
+            className="hover:text-[var(--brand-default)] transition-colors"
+          >
+            <span className="underline">See More Demos</span>
+          </a>
+          <span className="text-gray-400">|</span>
+          <a
+            href="https://github.com/exa-labs/research-paper-app"
+            target="_blank"
+            className="flex items-center gap-1.5 hover:text-[var(--brand-default)] transition-colors"
+          >
+            <span className="underline">View Project Code</span>
+            <svg
+              className="w-3.5 h-3.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+              />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
     <div className="flex flex-col min-h-screen w-full md:max-w-5xl z-0">
 
     <main className="flex flex-col justify-center flex-grow w-full md:max-w-5xl p-2 md:p-6">
       
-      <h1 className="md:text-4xl text-2xl pt-4 mb-8 font-medium opacity-0 animate-fade-up [animation-delay:300ms]">
+      <h1 className="md:text-4xl text-2xl mt-10 mb-8 font-medium opacity-0 animate-fade-up [animation-delay:300ms]">
         Ask questions and get answers based on Research Papers
       </h1>
 
@@ -247,22 +293,8 @@ export default function ResearchPaperFinder() {
         </>
       )}
 
-    </main>
-
-      <footer className="w-full py-6 px-8 mb-6 mt-auto opacity-0 animate-fade-up [animation-delay:600ms]">
-        <div className="max-w-md mx-auto">
-          <p className="text-md text-center text-gray-600">
-            <Link 
-              href="/about"
-              target="_blank"
-              className="hover:underline cursor-pointer"
-            >
-              Exa is hiring - join us now!
-            </Link>
-          </p>
-        </div>
-      </footer>
-
+      </main>
+    </div>
     </div>
   );
 }
