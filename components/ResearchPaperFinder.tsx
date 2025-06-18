@@ -227,7 +227,7 @@ export default function ResearchPaperFinder() {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Find research papers"
+            placeholder="Ask Questions"
             className="flex-1 p-3 rounded-none ring-2 ring-brand-default focus:outline-none opacity-0 animate-fade-up [animation-delay:400ms]"
           />
           <button
