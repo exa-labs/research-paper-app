@@ -36,6 +36,7 @@ This app makes it easy to search through research, get AI summaries, and chat wi
 ### What You Need
 - Node.js (v18 or higher)
 - Exa API key
+- Anthropic API key (or other LLM provider key)
 
 ### How to Set Up
 
@@ -50,10 +51,11 @@ cd research-paper-app
 npm install
 ```
 
-3. Set up your API key
+3. Set up your API keys
 Create a `.env.local` file and add:
 ```bash
 EXA_API_KEY=your_exa_api_key_here
+ANTHROPIC_API_KEY=your_anthropic_api_key_here
 ```
 
 4. Start the app
@@ -67,12 +69,16 @@ npm run dev
 
 ## 🔑 API Keys & Setup
 
-### API Key You Need
+### API Keys You Need
 * **Exa API Key**: Get from [Exa Dashboard](https://dashboard.exa.ai/api-keys)
+* **Anthropic API Key**: Get from [Anthropic Console](https://console.anthropic.com/) (or use other LLM providers)
+
+> **Note**: This app uses the Vercel AI SDK, so you can easily replace Anthropic with other LLM providers like OpenAI, Google, or others by updating the model configuration.
 
 ### Environment File
 ```bash
 EXA_API_KEY=your_exa_api_key_here
+ANTHROPIC_API_KEY=your_anthropic_api_key_here
 ```
 
 <br>
