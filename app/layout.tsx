@@ -23,8 +23,30 @@ const reckless = localFont({
 
 export const metadata: Metadata = {
   title: "Research Papers App",
-  description: "Discover Research Papers Instantly",
+  description: "Ask questions and get answers based on Research Papers",
+  openGraph: {
+    title: "Research Papers App",
+    description: "Ask questions and get answers based on Research Papers",
+    type: "website",
+    locale: "en_US",
+    images: [
+      {
+        url: "https://demo.exa.ai/research-paper-app/opengraph-image.jpg",
+        alt: "Research Papers App"
+      }
+    ]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Research Papers App",
+    description: "Ask questions and get answers based on Research Papers",
+    images: ["https://demo.exa.ai/research-paper-app/opengraph-image.jpg"]
+  },
   metadataBase: new URL("https://demo.exa.ai/research-paper-app"),
+  robots: {
+    index: true,
+    follow: true
+  },
 };
 
 export default function RootLayout({
