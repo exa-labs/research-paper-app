@@ -120,18 +120,6 @@ const ALL_CATEGORIES: Category[] = [
       { emoji: "🌈", question: "Are multivitamins doing more harm than good?" }
     ]
   },
-  {
-    name: "Dating and Relationships",
-    suggestions: [
-      { emoji: "📱", question: "Is online dating destroying real romance?" },
-      { emoji: "🧲", question: "Do opposites actually attract or repel?" },
-      { emoji: "💑", question: "Is monogamy an outdated social construct?" },
-      { emoji: "👨", question: "Are dating apps making men more superficial?" },
-      { emoji: "👫", question: "Is the friend zone real or just male entitlement?" },
-      { emoji: "🌍", question: "Do long-distance relationships ever actually work?" },
-      { emoji: "💍", question: "Is marriage becoming completely pointless?" }
-    ]
-  }
 ];
 
 // Function to randomly select 3 suggestions from a category

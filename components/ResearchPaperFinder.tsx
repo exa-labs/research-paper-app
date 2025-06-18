@@ -290,6 +290,14 @@ export default function ResearchPaperFinder() {
             ))}
 
           </div>
+
+          {/* Show suggestions again after search results */}
+          <div className="mt-12">
+            <h2 className="text-xl font-normal mb-6 text-gray-800">
+              Explore More Questions
+            </h2>
+            <SearchSuggestions onSuggestionClick={handleSuggestionClick} />
+          </div>
         </>
       )}
 

@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
         query,
         {
           model: "exa",
-          systemPrompt: "The first word of your answer should be either YES. or NO. Provide a good answer based on research papers and scientific evidence. Use simple words and avoid complex sentences. Don't have very long answer. Use short sentences. If there is a long sentence, break it into multiple short sentences."
+          systemPrompt: "Provide a good answer based on research papers and scientific evidence. Use simple words and avoid complex sentences. Don't have very long answer. Use short sentences. If there is a long sentence, break it into multiple short sentences. Say Yes or No at the beginning of your answer."
         }
       );
 
