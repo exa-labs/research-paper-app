@@ -127,7 +127,7 @@ export default function ResearchPaperFinder() {
   const handleSearch = async (e: FormEvent) => {
     e.preventDefault();
     
-    if (!searchQuery) {
+    if (!searchQuery?.trim()) {
       setError("Please enter a search topic to find research papers.");
       return;
     }
@@ -229,7 +229,7 @@ export default function ResearchPaperFinder() {
         Ask questions and get answers based on Research Papers
       </h1>
 
-      <form onSubmit={handleSearch} className="mb-8">
+      <form onSubmit={handleSearch} className="mb-4">
         <div className="flex gap-0">
           <input
             type="text"
@@ -248,6 +248,13 @@ export default function ResearchPaperFinder() {
         </div>
       </form>
 
+      {/* Input error pop-up */}  
+            {error && (
+        <div className="my-2 p-2 bg-red-100 border border-red-400 text-red-700 rounded-none">
+          {error}
+        </div>
+      )}
+
       {/* Answer Box */}
       {(isAnswerLoading || answer || answerError) && (
         <AnswerBox
@@ -262,11 +269,6 @@ export default function ResearchPaperFinder() {
         <SearchSuggestions onSuggestionClick={handleSuggestionClick} />
       )}
 
-      {error && (
-        <div className="mt-2 p-2 bg-red-100 border border-red-400 text-red-700 rounded-none">
-          {error}
-        </div>
-      )}
 
       {isGenerating && <ResultsLoadingSkeleton />}
 
